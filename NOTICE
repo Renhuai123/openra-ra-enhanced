@@ -1,0 +1,16 @@
+OpenRA RA Enhanced
+Copyright (C) 2026 openra-ra-enhanced contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This project is based on concepts and file formats from the OpenRA project
+(https://www.openra.net / https://github.com/OpenRA/OpenRA), also licensed
+under the GPL. Portions of `mod/ra-enhanced/mod.yaml` are derived from
+OpenRA's stock Red Alert mod manifest for compatibility.
+
+This repository does not include Westwood / EA Red Alert game binaries or
+copyrighted content packages. Users must obtain game assets themselves
+through OpenRA's official content import mechanisms.

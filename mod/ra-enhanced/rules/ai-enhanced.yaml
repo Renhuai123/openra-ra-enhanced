@@ -1,0 +1,17 @@
+# RA Enhanced — AI overlays (Week 2+)
+# Loaded after stock ra|rules/ai.yaml so keys here replace / extend upstream.
+# MiniYaml: use TABS. Do not cheat with free money / build-time hacks.
+#
+# Placeholder: safe no-op until concrete bot module overrides land.
+# See docs/ai-goals.md and ROADMAP Week 2.
+#
+# Example shape (disabled until tuned against a target OpenRA build):
+#
+# Player:
+# 	LobbyPrerequisiteCheckbox@ENHANCEDAI:
+# 		ID: enhanced-ai
+# 		Label: checkbox-enhanced-ai.label
+# 		Description: checkbox-enhanced-ai.description
+# 		Enabled: False
+# 		DisplayOrder: 90
+# 		Prerequisites: placeholder

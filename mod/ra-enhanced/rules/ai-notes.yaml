@@ -1,0 +1,20 @@
+# AI implementation notes (NOT listed in mod.yaml — documentation stub only)
+#
+# Upstream entry points (stock `ra`):
+#   - ra|rules/ai.yaml — bot modules, build orders, squads
+#   - Related player/world traits in ra|rules/player.yaml / world.yaml
+#
+# Our plan:
+#   1. Diff upstream ai.yaml per target OpenRA release
+#   2. Copy selective blocks into ai-enhanced.yaml with clear comments
+#   3. Add named bot difficulties: enhanced-easy / enhanced-normal / enhanced-hard
+#   4. Test on a fixed skirmish map set (see docs/ai-goals.md)
+#
+# Anti-patterns:
+#   - Giving AI ResourceStorage cheats or infinite power
+#   - Inflating unit HP only for AI-controlled actors
+#   - Huge untested build-order dumps
+#
+# When ready to load this file, append to Rules in mod.yaml:
+#   ra-enhanced|rules/ai-notes.yaml
+# (prefer keeping notes in docs/ and only load executable YAML.)

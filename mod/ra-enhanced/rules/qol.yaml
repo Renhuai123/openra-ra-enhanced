@@ -1,0 +1,5 @@
+# RA Enhanced — gameplay-adjacent QoL (non-balance by default)
+# Prefer UI/chrome for visual QoL; use this file only when a trait/rule is required.
+# Keep classic feel: avoid silent buffs to units or economy.
+#
+# Week 3+: optional notification / warning hooks may land here.

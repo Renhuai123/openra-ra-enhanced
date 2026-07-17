@@ -1,0 +1,44 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+*.user
+
+# Secrets / local env
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+
+# OpenRA / game content — NEVER commit copyrighted assets
+*.mix
+*.MIX
+*.exe
+*.dll
+*.pdb
+*.vqa
+*.VQA
+Content/
+content/
+**/Content/ra/
+**/SupportDir/
+
+# Build / SDK artifacts
+bin/
+obj/
+engine/
+# If someone vendors Mod SDK locally
+OpenRA/
+*.orp
+
+# Python / misc
+__pycache__/
+*.pyc
+.venv/
+
+# Logs
+*.log
