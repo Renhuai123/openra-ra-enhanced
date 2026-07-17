@@ -1,29 +1,41 @@
 # OpenRA RA Enhanced（红警增强 Mod）
 
-免费、开源的 [OpenRA](https://www.openra.net/) **Red Alert（红色警戒）增强 Mod**。  
-目标：在不破坏经典手感的前提下，提供更好的 AI、现代 UI/显示与 QoL 改进。
+> **一句话**：面向老玩家的 OpenRA 红警增强 Mod——更好 AI、更清晰体验；开源免费；**不是**商业独立红警。
+
+抖音上不少人在找「画面更好 / 电脑更聪明」的红警体验。我们正在做这件事，并已开源：  
+**<https://github.com/Renhuai123/openra-ra-enhanced>**
+
+红色警戒 IP 属于 **EA**，因此我们无法做独立商业红警产品，也**不会**分发游戏本体或版权资源。  
+我们能做的是：用 **Mod** 优化体验、加强电脑 AI，并继续探索更强 AI 玩法——**敬请期待**。
+
+完整对外说明：[docs/ANNOUNCEMENT.md](docs/ANNOUNCEMENT.md)
+
+---
 
 > **重要声明**  
 > 本仓库是 **Mod / 规则与文档**，**不包含、也不分发** Red Alert 游戏二进制或版权美术资源包。  
-> 玩家必须通过 OpenRA 官方流程自行导入游戏资源（Content Installer / Asset Import）。  
-> 本项目免费、开源，不出售游戏本体。
+> 玩家必须通过 OpenRA 官方 **Content Installer / Asset Import** 自行导入资源。  
+> 本项目免费、开源（GPL-3.0），不出售游戏本体。
 
 | | |
 |---|---|
-| **本地路径** | `~/Projects/openra-ra-enhanced` |
 | **Mod ID** | `ra-enhanced` |
-| **许可证** | [GPL-3.0](LICENSE)（与 OpenRA 生态一致） |
+| **目标引擎** | OpenRA **release-20250330** |
+| **许可证** | [GPL-3.0](LICENSE) |
 | **平台** | macOS / Windows / Linux（依赖 OpenRA） |
 
 ---
 
-## 功能方向（进行中）
+## 当前已交付（0.2）
 
-1. **更好的 AI**：扩张、防守、兵力构成、多线压力（见 [docs/ai-goals.md](docs/ai-goals.md)）
-2. **现代 UI / 显示 QoL**：清晰度、快捷信息、可选高 DPI 友好 chrome（保持 RA 味）
-3. **不破坏经典玩法**：数值与节奏以原版手感为默认；增强项尽量可开关
-
-详细范围见 [docs/scope.md](docs/scope.md)，四周计划见 [ROADMAP.md](ROADMAP.md)。
+1. **更强 AI（不作弊）**
+   - 调优官方 **Normal** 电脑：扩张矿场、电厂冗余、防空、矿车数量、进攻编队
+   - 新增遭遇战电脑：**Enhanced Normal** / **Enhanced Hard**
+   - 详见 `mod/ra-enhanced/rules/ai-enhanced.yaml`、[docs/ai-goals.md](docs/ai-goals.md)
+2. **QoL（不改单位数值）**
+   - 强化电力不足 / 资金不足 / 建造放置等反馈链路
+   - ChromeMetrics 微调，提升现代显示器可读性
+3. **安装脚本**与中文文档、合法性边界说明
 
 ---
 
@@ -31,27 +43,23 @@
 
 ### 1. 安装 OpenRA
 
-推荐用 Homebrew：
-
 ```bash
 brew install --cask openra
 ```
 
-或从官网下载：<https://www.openra.net/download/>
+或官网：<https://www.openra.net/download/>  
+Homebrew 会安装：`OpenRA - Red Alert.app` 等。
 
 ### 2. 导入官方游戏资源（必须）
 
-1. 启动 OpenRA，选择 **Red Alert**
-2. 按提示使用 **Content Installer** 导入资源  
-   - 可从原版光盘 / 合法安装目录导入  
-   - 或按 OpenRA 提示下载/安装允许的内容包
-3. 确认能正常进入原版 RA 再继续装本 Mod
+1. 打开 **OpenRA - Red Alert**
+2. 按提示用 **Content Installer** 导入  
+   - 原版光盘 / 合法安装目录，或 OpenRA 允许的内容获取方式
+3. 先确认原版 RA 能进主菜单，再装本 Mod
 
 本仓库 **不会** 提供 `.mix` / 可执行文件等版权资源。
 
 ### 3. 安装本 Mod
-
-克隆后运行安装脚本（会软链接到 OpenRA 用户 Mod 目录）：
 
 ```bash
 git clone https://github.com/Renhuai123/openra-ra-enhanced.git
@@ -59,102 +67,68 @@ cd openra-ra-enhanced
 ./scripts/install-mod.sh
 ```
 
-手动安装（macOS）：
+手动（macOS）：
 
 ```bash
-# OpenRA 用户 Mod 目录
 mkdir -p "$HOME/Library/Application Support/OpenRA/mods"
-ln -sfn "$(pwd)/mod/ra-enhanced" \
-  "$HOME/Library/Application Support/OpenRA/mods/ra-enhanced"
+ln -sfn "$(pwd)/mod/ra-enhanced"   "$HOME/Library/Application Support/OpenRA/mods/ra-enhanced"
 ```
 
-### 4. 启用 / 启动 Mod
-
-**方式 A — 启动器选 Mod**  
-打开 OpenRA，在 Mod 列表中选择 **RA Enhanced**（若已出现）。
-
-**方式 B — 命令行（macOS App）**
+### 4. 启动 Mod
 
 ```bash
-open -a OpenRA --args Game.Mod=ra-enhanced
+open -a "OpenRA - Red Alert" --args Game.Mod=ra-enhanced
 ```
 
-若使用源码/SDK 构建的 `OpenRA`，可参考：
+或在 OpenRA Mod 选择界面选 **RA Enhanced**。
 
-```bash
-./OpenRA.app/Contents/MacOS/OpenRA Game.Mod=ra-enhanced
-# 或
-mono OpenRA.Game.exe Game.Mod=ra-enhanced   # 视你的安装方式而定
-```
+遭遇战中选择电脑 **Enhanced Normal** / **Enhanced Hard** 体验增强 AI；原版 Rush/Normal/Turtle/Naval 仍可用。
 
 ### 5. 验证
 
-- 启动后窗口标题 / Mod 列表显示 **RA Enhanced**
-- 能进入单人 / 遭遇战（资源已导入的前提下）
-- 控制台无「找不到 mod」类错误
+- 窗口标题 / Mod 列表显示 **RA Enhanced**
+- 能进单人 / 遭遇战（需已导入资源）
+- 无「找不到 mod」类错误
 
 ---
 
 ## Windows
 
-1. 安装 [OpenRA](https://www.openra.net/download/)
-2. 用启动器完成 **Red Alert** 资源导入
-3. 将 `mod/ra-enhanced` 复制或链接到：
+1. 安装 [OpenRA](https://www.openra.net/download/) 并完成 RA 资源导入  
+2. 链接 Mod：
 
-   ```text
-   %USERPROFILE%\AppData\Roaming\OpenRA\mods\ra-enhanced
-   ```
+```powershell
+$src = (Resolve-Path .\mod\ra-enhanced).Path
+$dst = "$env:APPDATA\OpenRA\mods\ra-enhanced"
+New-Item -ItemType Junction -Path $dst -Target $src -Force
+```
 
-   PowerShell 示例：
-
-   ```powershell
-   $src = (Resolve-Path .\mod\ra-enhanced).Path
-   $dst = "$env:APPDATA\OpenRA\mods\ra-enhanced"
-   New-Item -ItemType Junction -Path $dst -Target $src -Force
-   ```
-
-4. 启动 OpenRA，选择 **RA Enhanced**，或：
-
-   ```text
-   OpenRA.exe Game.Mod=ra-enhanced
-   ```
+3. 启动：`OpenRA.exe Game.Mod=ra-enhanced` 或启动器选 **RA Enhanced**
 
 ---
 
 ## Linux
 
-1. 安装 OpenRA（发行版包、Flatpak 或官网包）
-2. 完成 RA 资源导入
-3. 安装 Mod：
-
-   ```bash
-   mkdir -p ~/.config/openra/mods   # 部分安装为 ~/.openra/mods，以本机为准
-   ln -sfn "$(pwd)/mod/ra-enhanced" ~/.config/openra/mods/ra-enhanced
-   # 若无效，试：
-   # ln -sfn "$(pwd)/mod/ra-enhanced" ~/.openra/mods/ra-enhanced
-   ```
-
-4. 启动：`openra Game.Mod=ra-enhanced`（命令名因包装而异）
-
-也可使用：
-
 ```bash
-./scripts/install-mod.sh
+mkdir -p ~/.config/openra/mods
+ln -sfn "$(pwd)/mod/ra-enhanced" ~/.config/openra/mods/ra-enhanced
+# 若无效可试 ~/.openra/mods
+./scripts/install-mod.sh   # 也可
 ```
 
-脚本会尝试检测常见用户目录。
+启动：`openra Game.Mod=ra-enhanced`（命令因发行包而异）
 
 ---
 
-## 资源导入说明（OpenRA 规则）
+## 资源与法律边界
 
 | 允许 | 不允许 |
 |------|--------|
-| 玩家自备原版光盘 / 合法安装，经 OpenRA Content Installer 导入 | 在本仓库或发行物中附带 RA 二进制、`.mix` 版权包 |
-| 使用 OpenRA 官方允许的安装方式获取内容 | 二次打包并出售游戏本体或资源 |
-| 分享本 Mod 的 YAML / 脚本 / 文档（GPL-3.0） | 声称本项目是商业重制版 |
+| 自备合法资源，经 OpenRA Content Installer 导入 | 在本仓库附带 RA 二进制、`.mix` 版权包 |
+| 使用 OpenRA 官方允许的内容安装方式 | 二次打包出售游戏本体或资源 |
+| 分享本 Mod 的 YAML / 脚本 / 文档（GPL-3.0） | 声称本项目是商业重制版 / EA 官方产品 |
 
-详情：[docs/scope.md](docs/scope.md)、[docs/asset-import.md](docs/asset-import.md)。
+详见：[docs/scope.md](docs/scope.md)、[docs/asset-import.md](docs/asset-import.md)、[NOTICE](NOTICE)。
 
 ---
 
@@ -162,41 +136,37 @@ mono OpenRA.Game.exe Game.Mod=ra-enhanced   # 视你的安装方式而定
 
 ```text
 openra-ra-enhanced/
-├── README.md                 # 本文件
-├── ROADMAP.md                # 4 周计划
-├── LICENSE                   # GPL-3.0
-├── docs/                     # 范围、贡献、AI、路线图扩展
-├── mod/ra-enhanced/          # OpenRA Mod 本体（可加载骨架）
+├── README.md
+├── docs/ANNOUNCEMENT.md      # 对外公告（抖音/社区可转发摘要）
+├── ROADMAP.md
+├── mod/ra-enhanced/          # Mod 本体
 │   ├── mod.yaml
-│   ├── rules/
-│   ├── chrome/
-│   └── ...
-├── scripts/                  # 安装 / 开发辅助
-└── .github/                  # Issue 模板等
+│   ├── rules/ai-enhanced.yaml
+│   ├── rules/qol.yaml
+│   └── chrome/
+└── scripts/install-mod.sh
 ```
 
 ---
 
-## 开发说明
+## 路线图（摘要）
 
-当前为 **可加载骨架 + 文档驱动的增强路线**：
+| 阶段 | 主题 |
+|------|------|
+| ✅ 骨架 + 文档 + 安装 | 可加载 Mod |
+| ✅ AI / QoL v0 | Enhanced 电脑 + 反馈可读性 |
+| 下一里程碑 | 固定地图 AI 对打调参、HUD 警告可开关、嵌入式 AI 玩法预研 |
+| v0.1 标签 | CHANGELOG + 回归清单 + Release（仅源码） |
 
-- 继承 / 覆盖 OpenRA 官方 `ra` Mod 行为（见 `mod/ra-enhanced/mod.yaml` 注释）
-- AI、UI 的具体改动以 stub + 文档为主，按 [ROADMAP.md](ROADMAP.md) 迭代
-- 贡献指南：[docs/contributing.md](docs/contributing.md)
-
-推荐后续接入 [OpenRA Mod SDK](https://github.com/OpenRA/OpenRAModSDK) 以便锁定引擎版本并做完整测试。
+详情：[ROADMAP.md](ROADMAP.md)
 
 ---
 
 ## 许可证
 
-本项目以 **GNU GPL v3** 授权，见 [LICENSE](LICENSE)。  
-与 OpenRA 保持一致，便于上游合并与社区复用。
-
----
+**GNU GPL v3** — 见 [LICENSE](LICENSE)。与 OpenRA 生态一致。
 
 ## 致谢
 
-- [OpenRA](https://github.com/OpenRA/OpenRA) 引擎与官方 RA Mod
-- 所有遵循开源与合法资源导入方式的玩家与贡献者
+- [OpenRA](https://github.com/OpenRA/OpenRA) 引擎与官方 RA Mod  
+- 所有合法导入资源、参与测试与贡献的老玩家们

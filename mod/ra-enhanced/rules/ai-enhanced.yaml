@@ -1,17 +1,316 @@
-# RA Enhanced — AI overlays (Week 2+)
-# Loaded after stock ra|rules/ai.yaml so keys here replace / extend upstream.
-# MiniYaml: use TABS. Do not cheat with free money / build-time hacks.
+# RA Enhanced — AI overlays (loaded after ra|rules/ai.yaml)
+# Target engine: OpenRA release-20250330
+# MiniYaml: TAB indentation. No free-money / build-speed cheats.
 #
-# Placeholder: safe no-op until concrete bot module overrides land.
-# See docs/ai-goals.md and ROADMAP Week 2.
-#
-# Example shape (disabled until tuned against a target OpenRA build):
-#
-# Player:
-# 	LobbyPrerequisiteCheckbox@ENHANCEDAI:
-# 		ID: enhanced-ai
-# 		Label: checkbox-enhanced-ai.label
-# 		Description: checkbox-enhanced-ai.description
-# 		Enabled: False
-# 		DisplayOrder: 90
-# 		Prerequisites: placeholder
+# 1) Tuned stock Normal AI (expansion, AA, harvesters, squad size)
+# 2) New lobby bots: Enhanced Normal / Enhanced Hard
+
+Player:
+	HarvesterBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-enhanced-normal-ai || enable-enhanced-hard-ai
+	BuildingRepairBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-enhanced-normal-ai || enable-enhanced-hard-ai
+	McvManagerBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-enhanced-normal-ai || enable-enhanced-hard-ai
+	SupportPowerBotModule:
+		RequiresCondition: enable-rush-ai || enable-normal-ai || enable-turtle-ai || enable-naval-ai || enable-enhanced-normal-ai || enable-enhanced-hard-ai
+	
+	# Stock Normal overlays
+	BaseBuilderBotModule@normal:
+		MinimumExcessPower: 80
+		MaximumExcessPower: 240
+		ExcessPowerIncrement: 40
+		ExcessPowerIncreaseThreshold: 3
+		BuildingLimits:
+			proc: 5
+			barr: 1
+			tent: 1
+			dome: 1
+			weap: 2
+			spen: 1
+			syrd: 1
+			hpad: 4
+			afld: 4
+			afld.ukraine: 4
+			atek: 1
+			stek: 1
+			fix: 1
+		BuildingFractions:
+			proc: 22
+			tent: 1
+			barr: 1
+			kenn: 1
+			dome: 1
+			weap: 8
+			hpad: 4
+			spen: 1
+			syrd: 1
+			afld: 4
+			afld.ukraine: 4
+			pbox: 8
+			gun: 8
+			ftur: 10
+			tsla: 6
+			gap: 2
+			fix: 1
+			agun: 8
+			sam: 6
+			atek: 1
+			stek: 1
+			mslo: 1
+		BuildingDelays:
+			dome: 2500
+	UnitBuilderBotModule@normal:
+		UnitsToBuild:
+			e1: 55
+			e2: 15
+			e3: 35
+			e4: 15
+			dog: 15
+			shok: 15
+			harv: 20
+			apc: 25
+			jeep: 15
+			arty: 20
+			v2rl: 35
+			ftrk: 35
+			1tnk: 45
+			2tnk: 55
+			3tnk: 55
+			4tnk: 30
+			ttnk: 25
+			stnk: 8
+			heli: 25
+			mh60: 25
+			mig: 25
+			yak: 25
+			ss: 10
+			msub: 10
+			dd: 10
+			ca: 10
+			pt: 10
+		UnitLimits:
+			dog: 4
+			harv: 10
+			jeep: 4
+			ftrk: 4
+	SquadManagerBotModule@normal:
+		SquadSize: 28
+	
+	ModularBot@EnhancedNormalAI:
+		Name: bot-enhanced-normal-ai.name
+		Type: enhanced-normal
+	ModularBot@EnhancedHardAI:
+		Name: bot-enhanced-hard-ai.name
+		Type: enhanced-hard
+	GrantConditionOnBotOwner@enhanced-normal:
+		Condition: enable-enhanced-normal-ai
+		Bots: enhanced-normal
+	GrantConditionOnBotOwner@enhanced-hard:
+		Condition: enable-enhanced-hard-ai
+		Bots: enhanced-hard
+	
+	BaseBuilderBotModule@enhanced-normal:
+		RequiresCondition: enable-enhanced-normal-ai
+		MinimumExcessPower: 100
+		MaximumExcessPower: 280
+		ExcessPowerIncrement: 40
+		ExcessPowerIncreaseThreshold: 3
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		ProductionTypes: barr,tent,weap,afld,hpad
+		NavalProductionTypes: spen, syrd
+		SiloTypes: silo
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam
+		BuildingLimits:
+			proc: 5
+			barr: 1
+			tent: 1
+			dome: 1
+			weap: 2
+			spen: 1
+			syrd: 1
+			hpad: 4
+			afld: 4
+			afld.ukraine: 4
+			atek: 1
+			stek: 1
+			fix: 1
+		BuildingFractions:
+			proc: 28
+			tent: 1
+			barr: 1
+			kenn: 1
+			dome: 1
+			weap: 8
+			hpad: 4
+			spen: 1
+			syrd: 1
+			afld: 4
+			afld.ukraine: 4
+			pbox: 9
+			gun: 9
+			ftur: 10
+			tsla: 7
+			gap: 2
+			fix: 1
+			agun: 9
+			sam: 7
+			atek: 1
+			stek: 1
+			mslo: 1
+		BuildingDelays:
+			dome: 2200
+			fix: 18000
+	SquadManagerBotModule@enhanced-normal:
+		RequiresCondition: enable-enhanced-normal-ai
+		SquadSize: 24
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt
+		ExcludeFromSquadsTypes: harv, mcv, dog, badr.bomber, u2
+		ConstructionYardTypes: fact
+		NavalProductionTypes: spen, syrd
+		AirUnitsTypes: mig, yak, heli, hind, mh60
+		AircraftTargetType: AirborneActor
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf
+		IgnoredEnemyTargetTypes: AirborneActor
+	UnitBuilderBotModule@enhanced-normal:
+		RequiresCondition: enable-enhanced-normal-ai
+		UnitsToBuild:
+			e1: 50
+			e2: 15
+			e3: 40
+			e4: 15
+			dog: 15
+			shok: 15
+			harv: 22
+			apc: 25
+			jeep: 15
+			arty: 25
+			v2rl: 35
+			ftrk: 40
+			1tnk: 45
+			2tnk: 55
+			3tnk: 55
+			4tnk: 35
+			ttnk: 25
+			stnk: 10
+			heli: 28
+			mh60: 28
+			mig: 28
+			yak: 28
+			ss: 10
+			msub: 10
+			dd: 10
+			ca: 10
+			pt: 10
+		UnitLimits:
+			dog: 4
+			harv: 12
+			jeep: 4
+			ftrk: 5
+	
+	BaseBuilderBotModule@enhanced-hard:
+		RequiresCondition: enable-enhanced-hard-ai
+		MinimumExcessPower: 120
+		MaximumExcessPower: 320
+		ExcessPowerIncrement: 50
+		ExcessPowerIncreaseThreshold: 2
+		ConstructionYardTypes: fact
+		RefineryTypes: proc
+		PowerTypes: powr,apwr
+		BarracksTypes: barr,tent
+		VehiclesFactoryTypes: weap
+		ProductionTypes: barr,tent,weap,afld,hpad
+		NavalProductionTypes: spen, syrd
+		SiloTypes: silo
+		DefenseTypes: hbox,pbox,gun,ftur,tsla,agun,sam
+		BuildingLimits:
+			proc: 6
+			barr: 1
+			tent: 1
+			dome: 1
+			weap: 2
+			spen: 1
+			syrd: 1
+			hpad: 5
+			afld: 5
+			afld.ukraine: 5
+			atek: 1
+			stek: 1
+			fix: 1
+		BuildingFractions:
+			proc: 32
+			tent: 1
+			barr: 1
+			kenn: 1
+			dome: 1
+			weap: 10
+			hpad: 5
+			spen: 1
+			syrd: 1
+			afld: 5
+			afld.ukraine: 5
+			pbox: 10
+			gun: 10
+			ftur: 12
+			tsla: 8
+			gap: 3
+			fix: 1
+			agun: 10
+			sam: 9
+			atek: 1
+			stek: 1
+			mslo: 1
+		BuildingDelays:
+			dome: 1800
+			fix: 15000
+			tsla: 16000
+	SquadManagerBotModule@enhanced-hard:
+		RequiresCondition: enable-enhanced-hard-ai
+		SquadSize: 18
+		NavalUnitsTypes: ss, msub, dd, ca, lst, pt
+		ExcludeFromSquadsTypes: harv, mcv, dog, badr.bomber, u2
+		ConstructionYardTypes: fact
+		NavalProductionTypes: spen, syrd
+		AirUnitsTypes: mig, yak, heli, hind, mh60
+		AircraftTargetType: AirborneActor
+		ProtectionTypes: harv, mcv, mslo, gap, spen, syrd, iron, pdox, tsla, agun, dome, pbox, hbox, gun, ftur, sam, atek, weap, fact, proc, silo, hpad, afld, afld.ukraine, powr, apwr, stek, barr, kenn, tent, fix, fpwr, tenf, syrf, spef, weaf, domf, fixf, fapw, atef, pdof, mslf, facf
+		IgnoredEnemyTargetTypes: AirborneActor
+	UnitBuilderBotModule@enhanced-hard:
+		RequiresCondition: enable-enhanced-hard-ai
+		UnitsToBuild:
+			e1: 45
+			e2: 15
+			e3: 45
+			e4: 20
+			dog: 15
+			shok: 20
+			harv: 25
+			apc: 20
+			jeep: 15
+			arty: 30
+			v2rl: 40
+			ftrk: 45
+			1tnk: 50
+			2tnk: 60
+			3tnk: 60
+			4tnk: 40
+			ttnk: 30
+			stnk: 12
+			heli: 35
+			mh60: 35
+			mig: 35
+			yak: 35
+			ss: 12
+			msub: 15
+			dd: 15
+			ca: 12
+			pt: 10
+		UnitLimits:
+			dog: 5
+			harv: 14
+			jeep: 4
+			ftrk: 6

@@ -1,0 +1,6 @@
+# RA Enhanced — ChromeMetrics overlay
+# Slightly clearer lobby text highlight on modern displays.
+
+Metrics:
+	TextfieldColorHighlight: 6E2828
+	IncompatibleVersionColor: C0C0C0

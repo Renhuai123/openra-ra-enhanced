@@ -1,6 +1,3 @@
-# RA Enhanced — chrome / UI overlays
-# Loaded after ra|chrome.yaml. Empty on purpose for Week 1 skeleton.
-# Week 3: readable fonts/metrics, optional HUD warning chrome.
-# See docs/ui-qol.md
-#
-# Prefer overriding specific chrome keys rather than replacing entire layouts.
+# RA Enhanced — chrome image overrides
+# Prefer metrics + fluent for readability; keep stock RA chrome art.
+# Future: optional HUD warning sprites under uibits/.

@@ -20,4 +20,6 @@
 
 ## 现状
 
-当前仓库提供 `chrome/` 说明与占位 YAML，实装按 ROADMAP Week 3 推进。
+- `chrome/metrics.yaml`：大厅文本高亮微调
+- `rules/qol.yaml`：电力/资金/建造反馈链路加固
+- Week 3 继续：局内 HUD 警告可开关、Retina 说明

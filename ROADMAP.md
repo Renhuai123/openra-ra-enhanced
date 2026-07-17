@@ -14,8 +14,8 @@
 | 仓库骨架、`mod.yaml`、安装脚本 | ✅ 本交付 |
 | README（安装 / 导入资源 / 启用） | ✅ |
 | `docs/scope`、贡献、AI 目标 | ✅ |
-| 验证：官方 RA 资源导入后能进本 Mod | 🔲 用户环境验证 |
-| 锁定目标 OpenRA 发行版（release 号记入 README） | 🔲 |
+| 验证：官方 RA 资源导入后能进本 Mod | 🔲 本机 Content Installer（需用户点击） |
+| 锁定目标 OpenRA 发行版（release 号记入 README） | ✅ release-20250330 |
 
 **验收**：`Game.Mod=ra-enhanced` 可进入主菜单；无版权资源进仓库。
 
@@ -25,12 +25,12 @@
 
 **目标**：在默认遭遇战中 AI 更「会玩」，但单位数值尽量不动。
 
-| 任务 | 说明 |
-|------|------|
-| 梳理官方 `ra` AI YAML 钩子 | 见 `docs/ai-goals.md`、`mod/.../rules/ai-notes.yaml` |
-| 实现 v0：更好的扩张 / 电厂 / 防守优先级 | MiniYaml 覆盖优先于 C# |
-| 增加 1–2 个命名 AI 档位（如 `enhanced-normal`） | 保留原版难度可选 |
-| 简单测试清单（文档化） | 固定地图、记录胜负与崩溃 |
+| 任务 | 说明 | 状态 |
+|------|------|------|
+| 梳理官方 `ra` AI YAML 钩子 | `docs/ai-goals.md`、`ai-notes.yaml` | ✅ |
+| 实现 v0：更好的扩张 / 电厂 / 防守优先级 | `ai-enhanced.yaml` 覆盖 Normal | ✅ |
+| 命名 AI 档位 | `enhanced-normal` / `enhanced-hard` | ✅ |
+| 简单测试清单（文档化） | 固定地图对打记录 | 🔲 下一里程碑 |
 
 **验收**：同图同难度下，增强 AI 比默认更少「摆烂」，不出现明显作弊经济。
 

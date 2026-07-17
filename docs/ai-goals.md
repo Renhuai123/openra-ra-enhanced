@@ -38,3 +38,14 @@ OpenRA 默认 RA AI 在扩张节奏、防守优先级、兵种构成与多线压
 
 - 固定种子 / 固定地图各打 5 局，记录：首矿场时间、首次进攻时间、是否断电、是否被偷家
 - 对比官方默认 AI 与 `enhanced-normal`
+
+
+## 当前实现（0.2）
+
+已落地（YAML，无作弊）：
+
+- 覆盖 `BaseBuilderBotModule@normal` / `UnitBuilderBotModule@normal` / `SquadManagerBotModule@normal`
+- 新增 `enhanced-normal`、`enhanced-hard` 全套 BaseBuilder + UnitBuilder + SquadManager
+- 扩展共享 `HarvesterBotModule` / `BuildingRepairBotModule` / `McvManagerBotModule` / `SupportPowerBotModule` 条件
+
+下一里程碑：固定地图 5 局对比记录（首矿场、首攻、断电、偷家）。

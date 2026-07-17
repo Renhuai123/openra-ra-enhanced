@@ -7,7 +7,7 @@
 
 Metadata:
 	Title: RA Enhanced
-	Version: 0.1.0-dev
+	Version: 0.2.0-dev
 	Website: https://github.com/Renhuai123/openra-ra-enhanced
 	WebIcon32: https://www.openra.net/images/icons/ra_32x32.png
 	WindowTitle: RA Enhanced (OpenRA)
@@ -237,6 +237,7 @@ ServerTraits:
 ChromeMetrics:
 	common|metrics.yaml
 	ra|metrics.yaml
+	ra-enhanced|chrome/metrics.yaml
 
 Fonts:
 	Tiny:

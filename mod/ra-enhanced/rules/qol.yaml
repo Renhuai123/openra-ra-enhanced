@@ -1,5 +1,16 @@
-# RA Enhanced — gameplay-adjacent QoL (non-balance by default)
-# Prefer UI/chrome for visual QoL; use this file only when a trait/rule is required.
-# Keep classic feel: avoid silent buffs to units or economy.
-#
-# Week 3+: optional notification / warning hooks may land here.
+# RA Enhanced — QoL rules (classic balance preserved)
+# Keep unit HP/cost/build times untouched. Feedback + clarity only.
+
+Player:
+	# Ensure low-power / funds speech+text stay wired (merge-safe overlay).
+	PlayerResources:
+		InsufficientFundsNotification: InsufficientFunds
+		InsufficientFundsTextNotification: notification-insufficient-funds
+	PowerManager:
+		SpeechNotification: LowPower
+		TextNotification: notification-low-power
+	PlaceBuilding:
+		NewOptionsNotification: NewOptions
+		CannotPlaceNotification: BuildingCannotPlaceAudio
+		NewOptionsTextNotification: notification-new-construction-options
+		CannotPlaceTextNotification: notification-cannot-deploy-here
