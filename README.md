@@ -77,8 +77,15 @@ ln -sfn "$(pwd)/mod/ra-enhanced"   "$HOME/Library/Application Support/OpenRA/mod
 ### 4. 启动 Mod
 
 ```bash
-open -a "OpenRA - Red Alert" --args Game.Mod=ra-enhanced
+# Preferred (works with packaged OpenRA release apps):
+"/Applications/OpenRA - Red Alert.app/Contents/MacOS/Launcher" Game.Mod=ra-enhanced
+
+# Or pass the mod directory path explicitly:
+"/Applications/OpenRA - Red Alert.app/Contents/MacOS/Launcher" \
+  Game.Mod="$PWD/mod/ra-enhanced"
 ```
+
+> macOS note: the official app only scans `OpenRA - Red Alert.app/Contents/Resources/mods` by default. `./scripts/install-mod.sh` symlinks there. `SupportDir/mods` alone is not enough.
 
 或在 OpenRA Mod 选择界面选 **RA Enhanced**。
 

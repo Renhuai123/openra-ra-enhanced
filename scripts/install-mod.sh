@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Install (symlink) ra-enhanced into the OpenRA user mods directory.
+# Install (symlink) ra-enhanced into OpenRA mod search paths.
+# Packaged macOS apps only scan EngineDir/mods by default (not SupportDir/mods).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -10,58 +11,60 @@ if [[ ! -f "$SRC/mod.yaml" ]]; then
   exit 1
 fi
 
-candidates=()
+install_link() {
+  local dest_dir="$1"
+  mkdir -p "$dest_dir"
+  local target="$dest_dir/ra-enhanced"
+  if [[ -e "$target" || -L "$target" ]]; then
+    echo "Removing existing: $target"
+    rm -rf "$target"
+  fi
+  ln -sfn "$SRC" "$target"
+  echo "Installed mod symlink:"
+  echo "  $target -> $SRC"
+}
+
 case "$(uname -s)" in
   Darwin)
-    candidates+=("$HOME/Library/Application Support/OpenRA/mods")
+    # User support dir (docs / some tools); packaged apps often ignore this for loading.
+    install_link "$HOME/Library/Application Support/OpenRA/mods"
+
+    # Packaged OpenRA - Red Alert.app (release DMG / Homebrew cask layout)
+    RA_APP_MODS="/Applications/OpenRA - Red Alert.app/Contents/Resources/mods"
+    if [[ -d "$RA_APP_MODS" ]]; then
+      install_link "$RA_APP_MODS"
+    else
+      echo "note: $RA_APP_MODS not found — install OpenRA first, then re-run."
+    fi
     ;;
   Linux)
-    candidates+=(
-      "$HOME/.config/openra/mods"
-      "$HOME/.openra/mods"
-      "$HOME/.config/OpenRA/mods"
-    )
+    for d in "$HOME/.config/openra/mods" "$HOME/.openra/mods" "$HOME/.config/OpenRA/mods"; do
+      parent="$(dirname "$d")"
+      if [[ -d "$parent" ]]; then
+        install_link "$d"
+        break
+      fi
+    done
+    if [[ ! -e "$HOME/.config/openra/mods/ra-enhanced" && ! -e "$HOME/.openra/mods/ra-enhanced" ]]; then
+      install_link "$HOME/.config/openra/mods"
+    fi
     ;;
   MINGW*|MSYS*|CYGWIN*|Windows_NT)
     if [[ -n "${APPDATA:-}" ]]; then
-      candidates+=("$APPDATA/OpenRA/mods")
+      install_link "$APPDATA/OpenRA/mods"
     fi
+    ;;
+  *)
+    install_link "$HOME/Library/Application Support/OpenRA/mods"
     ;;
 esac
 
-# Always try common fallbacks
-candidates+=(
-  "$HOME/Library/Application Support/OpenRA/mods"
-  "$HOME/.config/openra/mods"
-  "$HOME/.openra/mods"
-)
-
-DEST_DIR=""
-for d in "${candidates[@]}"; do
-  parent="$(dirname "$d")"
-  if [[ -d "$parent" ]] || [[ "$(uname -s)" == "Darwin" && "$d" == *"Application Support/OpenRA"* ]]; then
-    DEST_DIR="$d"
-    break
-  fi
-done
-
-if [[ -z "$DEST_DIR" ]]; then
-  DEST_DIR="${candidates[0]}"
-fi
-
-mkdir -p "$DEST_DIR"
-TARGET="$DEST_DIR/ra-enhanced"
-
-if [[ -e "$TARGET" || -L "$TARGET" ]]; then
-  echo "Removing existing: $TARGET"
-  rm -rf "$TARGET"
-fi
-
-ln -sfn "$SRC" "$TARGET"
-echo "Installed mod symlink:"
-echo "  $TARGET -> $SRC"
+echo
+echo "Launch (macOS packaged app):"
+echo "  /Applications/OpenRA\ -\ Red\ Alert.app/Contents/MacOS/Launcher Game.Mod=ra-enhanced"
+echo "  # or: Game.Mod=\"$SRC\""
 echo
 echo "Next:"
-echo "  1) Install OpenRA and import Red Alert content via the official installer."
-echo "  2) Start with Game.Mod=ra-enhanced (see README.md)."
+echo "  1) Import Red Alert content via OpenRA Content Installer (required)."
+echo "  2) In skirmish, pick Enhanced Normal / Enhanced Hard bots."
 echo "  3) This repo does NOT ship game binaries or .mix assets."
